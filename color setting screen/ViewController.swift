@@ -25,9 +25,24 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        colorScreenView.layer.cornerRadius = 10
+        colorScreenView.layer.cornerRadius = 15
         paintingScreenView()
         setupValueLabel()
+    }
+    
+    @IBAction func redSliderAction() {
+        valueRedColorLabel.text = String(round(redSlider.value * 100) / 100)
+        paintingScreenView()
+    }
+    
+    @IBAction func greenSliderAction() {
+        valueGreenColorLabel.text = String(round(greenSlider.value * 100) / 100)
+        paintingScreenView()
+    }
+    
+    @IBAction func blueSliderAction() {
+        valueBlueColorLabel.text = String(round(blueSlider.value * 100) / 100)
+        paintingScreenView()
     }
     
     private func setupValueLabel() {
@@ -48,20 +63,4 @@ class ViewController: UIViewController {
             alpha: 1.0
         )
     }
-    
-    @IBAction func redSliderAction() {
-        valueRedColorLabel.text = String(round(redSlider.value * 100) / 100)
-        paintingScreenView()
-    }
-    
-    @IBAction func greenSliderAction() {
-        valueGreenColorLabel.text = String(round(greenSlider.value * 100) / 100)
-        paintingScreenView()
-    }
-    
-    @IBAction func blueSliderAction() {
-        valueBlueColorLabel.text = String(round(blueSlider.value * 100) / 100)
-        paintingScreenView()
-    }
-    
 }
