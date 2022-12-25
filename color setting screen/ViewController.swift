@@ -29,6 +29,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         colorScreenView.layer.cornerRadius = 10
         
+        nameRedColorLabel.text = "Red:"
+        nameGreenColorLabel.text = "Green:"
+        nameBlueColorLabel.text = "Bluel:"
+        
         valueRedColorLabel.text = String(redSlider.value)
         valueGreenColorLabel.text = String(greenSlider.value)
         valueBlueColorLabel.text = String(blueSlider.value)
