@@ -102,6 +102,12 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
         blueTF.inputAccessoryView = toolbar
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let newLength = currentText.count + string.count - range.length
+        return newLength <= 4
+      }
+    
     
     private func setupValueSliders() {
         redSlider.minimumValue = 0.0
