@@ -27,9 +27,7 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var greenTF: UITextField!
     @IBOutlet weak var blueTF: UITextField!
     
-    var colorViewRed: CGFloat!
-    var colorViewGreen: CGFloat!
-    var colorViewBlue: CGFloat!
+    var color: UIColor!
     
     var delegate: SettingViewControllerDelegate!
     
@@ -68,23 +66,28 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func doneButtonPressed() {
-        delegate.setNewValue(red: colorViewRed, green: colorViewGreen, blue: colorViewBlue)
+        delegate.setNewValue(color: colorScreenView.backgroundColor ?? UIColor.green)
         dismiss(animated: true)
     }
     
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let redValueSlider = Float(redTF.text ?? "") ?? 0
-        redSlider.value = redValueSlider
-        valueRedColorLabel.text = redTF.text
         
-        let greenValueSlider = Float(greenTF.text ?? "") ?? 0
-        greenSlider.value = greenValueSlider
-        valueGreenColorLabel.text = greenTF.text
+        if textField == redTF {
+            let redValueSlider = Float(redTF.text ?? "") ?? 0
+            redSlider.value = redValueSlider
+            valueRedColorLabel.text = redTF.text
+        } else if textField == greenTF {
+            let greenValueSlider = Float(greenTF.text ?? "") ?? 0
+            greenSlider.value = greenValueSlider
+            valueGreenColorLabel.text = greenTF.text
+        } else {
+            let blueValueSlider = Float(blueTF.text ?? "") ?? 0
+            blueSlider.value = blueValueSlider
+            valueBlueColorLabel.text = blueTF.text
+        }
         
-        let blueValueSlider = Float(blueTF.text ?? "") ?? 0
-        blueSlider.value = blueValueSlider
-        valueBlueColorLabel.text = blueTF.text
+        colorScreenView.backgroundColor = UIColor(red: CGFloat(redSlider.value), green: CGFloat(greenSlider.value), blue: CGFloat(blueSlider.value), alpha: 1.0)
     }
     
     func addedToolbarForKeyboard() {
@@ -110,17 +113,20 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     
     
     private func setupValueSliders() {
+        
+        let ciColor = CIColor(color: color)
+
         redSlider.minimumValue = 0.0
         redSlider.maximumValue = 1.0
-        redSlider.value = Float(colorViewRed)
+        redSlider.value = Float(ciColor.red)
         
         greenSlider.minimumValue = 0.0
         greenSlider.maximumValue = 1.0
-        greenSlider.value = Float(colorViewGreen)
+        greenSlider.value = Float(ciColor.green)
         
         blueSlider.minimumValue = 0.0
         blueSlider.maximumValue = 1.0
-        blueSlider.value = Float(colorViewBlue)
+        blueSlider.value = Float(ciColor.blue)
     }
     
     private func setupValueLabel() {
@@ -136,23 +142,20 @@ class SettingViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func paintingScreenView() {
-        colorViewRed = CGFloat(redSlider.value)
-        colorViewGreen = CGFloat(greenSlider.value)
-        colorViewBlue = CGFloat(blueSlider.value)
         
         colorScreenView.backgroundColor = UIColor(
-            red: colorViewRed,
-            green: colorViewGreen,
-            blue: colorViewBlue,
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
             alpha: 1.0
         )
     }
     
     private func setupAllValue() {
         setupValueSliders()
-        paintingScreenView()
         setupValueLabel()
         setupValueTextField()
+        paintingScreenView()
     }
     
     @objc private func doneEditing() {
